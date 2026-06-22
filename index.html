@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habibi Ghufron Hilmiy | Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00f0ff;
+      border-radius: 3px;
+      box-shadow: 0 0 8px #00f0ff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #0a0a0f;
+      color: #c0c0d0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 240, 255, 0.015) 2px,
+        rgba(0, 240, 255, 0.015) 4px
+      );
+    }
+
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 100px 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      position: relative;
+    }
+
+    .hero-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.2rem, 7vw, 4.5rem);
+      font-weight: 900;
+      color: #fff;
+      text-shadow:
+        0 0 10px #00f0ff,
+        0 0 20px #00f0ff,
+        0 0 40px #00f0ff,
+        0 0 80px #00f0ff;
+      letter-spacing: 4px;
+      animation: glitch 4s infinite;
+      position: relative;
+    }
+
+    .hero-name::before,
+    .hero-name::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-name::before {
+      color: #ff00ff;
+      z-index: -1;
+      animation: glitch-offset 0.3s infinite;
+    }
+    .hero-name::after {
+      color: #00f0ff;
+      z-index: -1;
+      animation: glitch-offset 0.15s infinite reverse;
+    }
+
+    @keyframes glitch {
+      0%, 90%, 100% { transform: translate(0); }
+      92% { transform: translate(-2px, 1px); }
+      94% { transform: translate(2px, -1px); }
+      96% { transform: translate(-1px, 2px); }
+      98% { transform: translate(1px, -2px); }
+    }
+
+    @keyframes glitch-offset {
+      0% { transform: translate(0); opacity: 0.6; }
+      50% { transform: translate(3px, -2px); opacity: 0.3; }
+      100% { transform: translate(-2px, 1px); opacity: 0.5; }
+    }
+
+    .hero-subtitle {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+      font-weight: 400;
+      color: #ff00ff;
+      text-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+      margin-top: 16px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+    }
+
+    .hero-divider {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00f0ff, #ff00ff, transparent);
+      margin: 24px auto;
+      box-shadow: 0 0 20px #00f0ff;
+    }
+
+    .hero-tagline {
+      font-size: clamp(0.8rem, 1.2vw, 1rem);
+      color: rgba(192, 192, 208, 0.6);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: #00f0ff;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.5;
+      animation: bounce-down 2s infinite;
+    }
+    .scroll-indicator .arrow {
+      font-size: 1.2rem;
+    }
+    @keyframes bounce-down {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── SECTION TITLES ── */
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+      text-shadow: 0 0 20px #00f0ff;
+    }
+    .section-title span {
+      color: #ff00ff;
+      text-shadow: 0 0 20px #ff00ff;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, #00f0ff, #ff00ff);
+      margin: 12px auto 0;
+      box-shadow: 0 0 15px #00f0ff;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .about-text p {
+      margin-bottom: 16px;
+      color: #a0a0b8;
+      font-size: 0.95rem;
+    }
+
+    .about-text .highlight {
+      color: #00f0ff;
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .skill-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(0, 240, 255, 0.15);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .skill-card:hover {
+      border-color: #00f0ff;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.05);
+      transform: translateY(-3px);
+    }
+    .skill-card .icon {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+    .skill-card .label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      color: #00f0ff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(0, 240, 255, 0.1);
+      border-radius: 12px;
+      padding: 28px;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.03), transparent);
+      transition: left 0.6s ease;
+    }
+    .project-card:hover::before {
+      left: 100%;
+    }
+    .project-card:hover {
+      border-color: #00f0ff;
+      box-shadow:
+        0 0 15px rgba(0, 240, 255, 0.2),
+        0 0 45px rgba(0, 240, 255, 0.08),
+        inset 0 0 30px rgba(0, 240, 255, 0.03);
+      transform: translateY(-6px);
+    }
+
+    .project-card .repo-icon {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: #00f0ff;
+    }
+
+    .project-card .repo-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .project-card .repo-desc {
+      font-size: 0.82rem;
+      color: #8888a0;
+      margin-bottom: 16px;
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .project-card .repo-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.75rem;
+      color: #6666a0;
+    }
+
+    .project-card .repo-lang {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .project-card .repo-lang .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 6px currentColor;
+    }
+
+    .project-card .repo-link {
+      margin-left: auto;
+      color: #00f0ff;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    .project-card .repo-link:hover {
+      text-shadow: 0 0 15px #00f0ff;
+      transform: scale(1.2);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      min-height: auto;
+      padding-bottom: 60px;
+    }
+    .contact-content {
+      text-align: center;
+    }
+
+    .contact-text {
+      font-size: 0.95rem;
+      color: #8888a0;
+      margin-bottom: 40px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 8px;
+      color: #c0c0d0;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .contact-link:hover {
+      border-color: #00f0ff;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.3), inset 0 0 25px rgba(0, 240, 255, 0.05);
+      color: #00f0ff;
+      transform: translateY(-3px);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 0.7rem;
+      color: rgba(192, 192, 208, 0.3);
+      letter-spacing: 2px;
+      border-top: 1px solid rgba(0, 240, 255, 0.05);
+      margin-top: 40px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .skills-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      section {
+        padding: 70px 0;
+      }
+      .contact-links {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="canvas-container"></div>
+  <div class="scanlines"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero">
+    <div class="container hero-content">
+      <h1 class="hero-name" data-text="Habibi Ghufron Hilmiy">Habibi Ghufron Hilmiy</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-subtitle">&lt;Full Stack Developer&gt;</p>
+      <p class="hero-tagline">// building digital experiences with code</p>
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <span class="arrow">⌄</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title"><span>&lt;</span> About_Me <span>/&gt;</span></h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>Hi, I'm <span class="highlight">Habibi Ghufron Hilmiy</span> — a passionate Full Stack Developer who thrives on building modern, scalable web applications. I love the intersection of clean code, elegant design, and cutting-edge technology.</p>
+          <p>With expertise spanning both frontend and backend ecosystems, I craft digital experiences that are not only functional but visually compelling. Every line of code is an opportunity to push boundaries.</p>
+          <p><span class="highlight">#CodeTheFuture</span></p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-card"><div class="icon">⚛</div><div class="label">React</div></div>
+          <div class="skill-card"><div class="icon">🟢</div><div class="label">Vue</div></div>
+          <div class="skill-card"><div class="icon">🐘</div><div class="label">Laravel</div></div>
+          <div class="skill-card"><div class="icon">🟦</div><div class="label">Tailwind</div></div>
+          <div class="skill-card"><div class="icon">💎</div><div class="label">Filament</div></div>
+          <div class="skill-card"><div class="icon">🗄️</div><div class="label">MySQL</div></div>
+          <div class="skill-card"><div class="icon">🐳</div><div class="label">Docker</div></div>
+          <div class="skill-card"><div class="icon">☁️</div><div class="label">GCP</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROJECTS ─── -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title"><span>&lt;</span> Projects <span>/&gt;</span></h2>
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title"><span>&lt;</span> Contact <span>/&gt;</span></h2>
+      <div class="contact-content">
+        <p class="contact-text">Want to collaborate or just say hi?<br />Reach out — I'm always open to new connections.</p>
+        <div class="contact-links">
+          <a href="https://github.com/habibighufronhilmiy" target="_blank" class="contact-link">🐙 GitHub</a>
+          <a href="mailto:habibi@example.com" class="contact-link">✉ Email</a>
+          <a href="https://www.linkedin.com/in/habibi-ghufron-hilmiy" target="_blank" class="contact-link">🔗 LinkedIn</a>
+        </div>
+        <div class="footer">
+          <p>© 2026 // HABIBI GHUFRON HILMIY // Built with code &lt;/&gt;</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── THREE.JS ─── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    (function() {
+      const container = document.getElementById('canvas-container');
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x0a0a0f, 0.0018);
+
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 30;
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      // ── Particles ──
+      const particlesGeo = new THREE.BufferGeometry();
+      const particleCount = 2500;
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      const sizes = new Float32Array(particleCount);
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 120;
+        positions[i3 + 1] = (Math.random() - 0.5) * 80;
+        positions[i3 + 2] = (Math.random() - 0.5) * 60 - 20;
+
+        const choice = Math.random();
+        if (choice < 0.33) {
+          colors[i3] = 0;
+          colors[i3 + 1] = 0.94;
+          colors[i3 + 2] = 1;
+        } else if (choice < 0.66) {
+          colors[i3] = 1;
+          colors[i3 + 1] = 0;
+          colors[i3 + 2] = 1;
+        } else {
+          colors[i3] = 0.2;
+          colors[i3 + 1] = 0.4;
+          colors[i3 + 2] = 1;
+        }
+        sizes[i] = Math.random() * 2 + 0.5;
+      }
+
+      particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      particlesGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      particlesGeo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+      const particleMat = new THREE.PointsMaterial({
+        size: 0.15,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        sizeAttenuation: true,
+      });
+      const particleSystem = new THREE.Points(particlesGeo, particleMat);
+      scene.add(particleSystem);
+
+      // ── Geometric shapes ──
+      const shapes = [];
+
+      function createShape(geometry, color, pos, rotSpeed, floatSpeed) {
+        const mat = new THREE.MeshBasicMaterial({
+          color: color,
+          transparent: true,
+          opacity: 0.08 + Math.random() * 0.1,
+          wireframe: Math.random() > 0.5,
+        });
+        const mesh = new THREE.Mesh(geometry, mat);
+        mesh.position.set(pos.x, pos.y, pos.z);
+        mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+        const scale = 0.8 + Math.random() * 2;
+        mesh.scale.set(scale, scale, scale);
+        scene.add(mesh);
+        shapes.push({ mesh, rotSpeed, floatSpeed, baseY: pos.y, phase: Math.random() * Math.PI * 2 });
+        return mesh;
+      }
+
+      const colorsNeon = [0x00f0ff, 0xff00ff, 0x4060ff, 0x00ff88];
+      const geos = [
+        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.TetrahedronGeometry(1),
+        new THREE.OctahedronGeometry(1),
+        new THREE.TorusGeometry(0.7, 0.3, 12, 18),
+        new THREE.IcosahedronGeometry(1),
+        new THREE.ConeGeometry(0.8, 1.2, 6),
+      ];
+
+      for (let i = 0; i < 30; i++) {
+        const geo = geos[i % geos.length];
+        const col = colorsNeon[i % colorsNeon.length];
+        createShape(
+          geo,
+          col,
+          {
+            x: (Math.random() - 0.5) * 70,
+            y: (Math.random() - 0.5) * 50,
+            z: (Math.random() - 0.5) * 40 - 10,
+          },
+          0.001 + Math.random() * 0.004,
+          0.002 + Math.random() * 0.005
+        );
+      }
+
+      // ── Grid lines ──
+      const gridMat = new THREE.LineBasicMaterial({
+        color: 0x00f0ff,
+        transparent: true,
+        opacity: 0.06,
+      });
+
+      for (let i = -30; i <= 30; i += 3) {
+        const pointsH = [
+          new THREE.Vector3(-40, i, -25),
+          new THREE.Vector3(40, i, -25),
+        ];
+        const geoH = new THREE.BufferGeometry().setFromPoints(pointsH);
+        scene.add(new THREE.Line(geoH, gridMat));
+
+        const pointsV = [
+          new THREE.Vector3(i, -25, -25),
+          new THREE.Vector3(i, 25, -25),
+        ];
+        const geoV = new THREE.BufferGeometry().setFromPoints(pointsV);
+        scene.add(new THREE.Line(geoV, gridMat));
+      }
+
+      // ── Mouse tracking ──
+      let mouseX = 0, mouseY = 0;
+      document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      // ── Resize ──
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // ── Animation loop ──
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const elapsed = clock.getElapsedTime();
+
+        particleSystem.rotation.y = elapsed * 0.01;
+
+        shapes.forEach((s) => {
+          s.mesh.rotation.x += s.rotSpeed * 0.5;
+          s.mesh.rotation.y += s.rotSpeed;
+          s.mesh.position.y = s.baseY + Math.sin(elapsed * s.floatSpeed + s.phase) * 1.5;
+        });
+
+        camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+        camera.position.y += (mouseY * 1.5 - camera.position.y) * 0.02;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    })();
+  </script>
+
+  <script>
+    const projects = [
+      {
+        name: 'laravel-coffee-shop',
+        desc: 'A full-stack coffee shop ordering and management system built with Laravel and Filament PHP.',
+        lang: 'PHP',
+        color: '#777bb4',
+        stars: 0,
+        url: 'https://github.com/habibighufronhilmiy/laravel-coffee-shop',
+      },
+      {
+        name: 'SEKECAM',
+        desc: 'Sistem Elektronik Keluhan dan Aspirasi Kecamatan',
+        lang: 'Blade',
+        color: '#f7523f',
+        stars: 0,
+        url: 'https://github.com/habibighufronhilmiy/SEKECAM',
+      },
+      {
+        name: 'laravel-spp-main',
+        desc: 'Manajemen SPP sekolah berbasis Laravel',
+        lang: 'CSS',
+        color: '#563d7c',
+        stars: 0,
+        url: 'https://github.com/habibighufronhilmiy/laravel-spp-main',
+      },
+      {
+        name: 'Tokokue',
+        desc: 'Toko online sederhana',
+        lang: 'CSS',
+        color: '#563d7c',
+        stars: 0,
+        url: 'https://github.com/habibighufronhilmiy/Tokokue',
+      },
+      {
+        name: 'zerowaste',
+        desc: 'Zero waste management',
+        lang: 'CSS',
+        color: '#563d7c',
+        stars: 0,
+        url: 'https://github.com/habibighufronhilmiy/zerowaste',
+      },
+      {
+        name: 'dream-fc',
+        desc: 'Dream FC',
+        lang: 'HTML',
+        color: '#e34c26',
+        stars: 0,
+        url: 'https://github.com/habibighufronhilmiy/dream-fc',
+      },
+      {
+        name: 'web',
+        desc: 'Web project',
+        lang: 'HTML',
+        color: '#e34c26',
+        stars: 0,
+        url: 'https://github.com/habibighufronhilmiy/web',
+      },
+    ];
+
+    const grid = document.getElementById('projects-grid');
+
+    function langColor(lang) {
+      const map = {
+        'PHP': '#777bb4',
+        'Blade': '#f7523f',
+        'CSS': '#563d7c',
+        'HTML': '#e34c26',
+        'JavaScript': '#f1e05a',
+        'TypeScript': '#3178c6',
+      };
+      return map[lang] || '#666';
+    }
+
+    projects.forEach((p) => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <div class="repo-icon">📁</div>
+        <div class="repo-name">${p.name}</div>
+        <div class="repo-desc">${p.desc}</div>
+        <div class="repo-meta">
+          <span class="repo-lang">
+            <span class="dot" style="color: ${langColor(p.lang)}; background: ${langColor(p.lang)};"></span>
+            ${p.lang}
+          </span>
+          <a href="${p.url}" target="_blank" class="repo-link" title="View on GitHub">↗</a>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
