@@ -623,29 +623,50 @@
       color: var(--accent);
     }
 
-    .project-link {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 40px;
-      height: 40px;
-      background: rgba(13, 13, 13, 0.8);
-      border-radius: 50%;
+    .project-links {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-primary);
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .project-links a {
+      font-size: 0.75rem;
+      color: var(--accent);
       text-decoration: none;
-      opacity: 0;
-      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(108, 99, 255, 0.35);
+      padding-bottom: 1px;
     }
 
-    .project-card:hover .project-link {
-      opacity: 1;
+    .project-links a:hover {
+      color: var(--text-primary);
+      border-color: var(--text-primary);
     }
 
-    .project-link:hover {
-      background: var(--accent);
+    /* Touch devices cannot hover: stack the details under the image instead. */
+    @media (hover: none) {
+      .project-card {
+        aspect-ratio: auto;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+      }
+
+      .project-card img {
+        height: auto;
+        aspect-ratio: 16 / 10;
+      }
+
+      .project-card.portrait img {
+        aspect-ratio: 4 / 5;
+      }
+
+      .project-overlay {
+        position: static;
+        transform: none;
+        opacity: 1;
+        background: none;
+        padding: 20px 22px 24px;
+      }
     }
 
     .year-group {
@@ -673,29 +694,21 @@
       background: #050505;
     }
 
-    .project-card.text-only {
-      aspect-ratio: auto;
-      min-height: 200px;
-      display: flex;
-      align-items: flex-end;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
+    .earlier-projects {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 2;
     }
 
-    .project-card.text-only:hover {
-      border-color: var(--border-hover);
+    .earlier-projects a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(108, 99, 255, 0.35);
     }
 
-    .project-card.text-only .project-body {
-      padding: 28px;
-    }
-
-    .project-card.text-only .project-desc {
-      margin-bottom: 16px;
-    }
-
-    .project-card.text-only .project-link {
-      opacity: 1;
+    .earlier-projects a:hover {
+      color: var(--text-primary);
+      border-color: var(--text-primary);
     }
 
     .media-grid {
@@ -935,8 +948,11 @@
                 <span class="project-tag">JavaScript</span>
                 <span class="project-tag">Open Data</span>
               </div>
+              <div class="project-links">
+                <a href="https://siaga-ku.vercel.app/" target="_blank" rel="noopener">Live site ↗</a>
+                <a href="https://github.com/Zilfs/SiagaKU" target="_blank" rel="noopener">Team repo ↗</a>
+              </div>
             </div>
-            <a href="https://siaga-ku.vercel.app/" target="_blank" rel="noopener" class="project-link" aria-label="Open SiagaKU">↗</a>
           </div>
           <div class="project-card reveal">
             <img src="assets/images/project-coffee.jpg" alt="Laravel Coffee Shop">
@@ -948,8 +964,10 @@
                 <span class="project-tag">Filament</span>
                 <span class="project-tag">MySQL</span>
               </div>
+              <div class="project-links">
+                <a href="https://github.com/habibighufronhilmiy/laravel-coffee-shop" target="_blank" rel="noopener">Code ↗</a>
+              </div>
             </div>
-            <a href="https://github.com/habibighufronhilmiy/laravel-coffee-shop" target="_blank" rel="noopener" class="project-link" aria-label="Open Laravel Coffee Shop">↗</a>
           </div>
           <div class="project-card reveal">
             <img src="assets/images/project-sekecam.jpg" alt="SEKECAM">
@@ -961,86 +979,38 @@
                 <span class="project-tag">Blade</span>
                 <span class="project-tag">MySQL</span>
               </div>
+              <div class="project-links">
+                <a href="https://github.com/habibighufronhilmiy/SEKECAM-Sistem-Elektronik-Keluhan-dan-Aspirasi-Kecamatan" target="_blank" rel="noopener">Code ↗</a>
+              </div>
             </div>
-            <a href="https://github.com/habibighufronhilmiy/SEKECAM-Sistem-Elektronik-Keluhan-dan-Aspirasi-Kecamatan" target="_blank" rel="noopener" class="project-link" aria-label="Open SEKECAM">↗</a>
           </div>
           <div class="project-card portrait reveal">
-            <img src="assets/images/project-nutrisi.jpeg" alt="Nutrition and food budget tracker">
+            <img src="assets/images/project-nutrisi.jpeg" alt="S-Meals nutrition and food budget tracker">
             <div class="project-overlay">
-              <h3 class="project-name">Nutrition &amp; Food Budget Tracker</h3>
+              <h3 class="project-name">S-Meals</h3>
               <p class="project-desc">Daily nutrition and meal budget tracking app: calorie target, macronutrient breakdown, and food spending against a monthly budget.</p>
               <div class="project-tech">
                 <span class="project-tag">Web App</span>
                 <span class="project-tag">Dashboard</span>
               </div>
+              <div class="project-links">
+                <a href="https://github.com/habibighufronhilmiy/S-Meals" target="_blank" rel="noopener">Code ↗</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="year-group reveal">
-        <h3 class="year-label">2025</h3>
-        <div class="projects-grid">
-          <div class="project-card text-only reveal">
-            <div class="project-body">
-              <h3 class="project-name">Zerowaste</h3>
-              <p class="project-desc">Waste-management landing page concept focused on reducing household waste.</p>
-              <div class="project-tech">
-                <span class="project-tag">HTML</span>
-                <span class="project-tag">CSS</span>
-              </div>
-            </div>
-            <a href="https://github.com/habibighufronhilmiy/zerowaste" target="_blank" rel="noopener" class="project-link" aria-label="Open Zerowaste repository">↗</a>
-          </div>
-          <div class="project-card text-only reveal">
-            <div class="project-body">
-              <h3 class="project-name">Tokokue</h3>
-              <p class="project-desc">Online bakery storefront with product catalog and ordering pages.</p>
-              <div class="project-tech">
-                <span class="project-tag">CSS</span>
-                <span class="project-tag">HTML</span>
-              </div>
-            </div>
-            <a href="https://github.com/habibighufronhilmiy/Tokokue" target="_blank" rel="noopener" class="project-link" aria-label="Open Tokokue repository">↗</a>
-          </div>
-          <div class="project-card text-only reveal">
-            <div class="project-body">
-              <h3 class="project-name">Laravel SPP</h3>
-              <p class="project-desc">School tuition (SPP) payment management application with student billing records.</p>
-              <div class="project-tech">
-                <span class="project-tag">Laravel</span>
-                <span class="project-tag">MySQL</span>
-              </div>
-            </div>
-            <a href="https://github.com/habibighufronhilmiy/laravel-spp-main" target="_blank" rel="noopener" class="project-link" aria-label="Open Laravel SPP repository">↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="year-group reveal">
-        <h3 class="year-label">2024</h3>
-        <div class="projects-grid">
-          <div class="project-card text-only reveal">
-            <div class="project-body">
-              <h3 class="project-name">AppKasir</h3>
-              <p class="project-desc">Point-of-sale cashier application for small retail transactions and daily sales records.</p>
-              <div class="project-tech">
-                <span class="project-tag">Desktop App</span>
-              </div>
-            </div>
-            <a href="https://github.com/habibighufronhilmiy/AppKasir" target="_blank" rel="noopener" class="project-link" aria-label="Open AppKasir repository">↗</a>
-          </div>
-          <div class="project-card text-only reveal">
-            <div class="project-body">
-              <h3 class="project-name">Entrepreuneur</h3>
-              <p class="project-desc">Web project for entrepreneurship class material and business planning.</p>
-              <div class="project-tech">
-                <span class="project-tag">Web</span>
-              </div>
-            </div>
-            <a href="https://github.com/habibighufronhilmiy/entreprenure" target="_blank" rel="noopener" class="project-link" aria-label="Open Entrepreuneur repository">↗</a>
-          </div>
-        </div>
+        <h3 class="year-label">Before 2026</h3>
+        <p class="earlier-projects">
+          Practice and coursework repos:
+          <a href="https://github.com/habibighufronhilmiy/zerowaste" target="_blank" rel="noopener">Zerowaste</a> &middot;
+          <a href="https://github.com/habibighufronhilmiy/Tokokue" target="_blank" rel="noopener">Tokokue</a> &middot;
+          <a href="https://github.com/habibighufronhilmiy/laravel-spp-main" target="_blank" rel="noopener">Laravel SPP</a> &middot;
+          <a href="https://github.com/habibighufronhilmiy/AppKasir" target="_blank" rel="noopener">AppKasir</a> &middot;
+          <a href="https://github.com/habibighufronhilmiy/entreprenure" target="_blank" rel="noopener">Entrepreuneur</a>
+        </p>
       </div>
     </div>
   </section>
