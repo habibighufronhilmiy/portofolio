@@ -30,6 +30,7 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 80px;
     }
 
     body {
@@ -647,6 +648,101 @@
       background: var(--accent);
     }
 
+    .year-group {
+      margin-bottom: 64px;
+    }
+
+    .year-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .year-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-card.portrait img {
+      object-fit: contain;
+      background: #050505;
+    }
+
+    .project-card.text-only {
+      aspect-ratio: auto;
+      min-height: 200px;
+      display: flex;
+      align-items: flex-end;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .project-card.text-only:hover {
+      border-color: var(--border-hover);
+    }
+
+    .project-card.text-only .project-body {
+      padding: 28px;
+    }
+
+    .project-card.text-only .project-desc {
+      margin-bottom: 16px;
+    }
+
+    .project-card.text-only .project-link {
+      opacity: 1;
+    }
+
+    .media-grid {
+      display: grid;
+      gap: 24px;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .media-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .media-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+
+    .media-card img {
+      display: block;
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      background: #050505;
+    }
+
+    .media-card figcaption {
+      padding: 20px 24px;
+    }
+
+    .media-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .media-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
     #contact {
       min-height: auto;
       padding: 100px 0 60px;
@@ -762,9 +858,11 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
+        <li><a href="#summary">Summary</a></li>
         <li><a href="#projects">Work</a></li>
+        <li><a href="#certificates">Certificates</a></li>
+        <li><a href="#achievements">Achievements</a></li>
+        <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -790,9 +888,9 @@
     </div>
   </section>
 
-  <section id="about">
+  <section id="summary">
     <div class="container">
-      <h2 class="section-title reveal">About <span>Me</span></h2>
+      <h2 class="section-title reveal">Summary</h2>
       <div class="about-grid">
         <div class="about-text reveal">
           <p>Information Systems student focused on web application development as a <span class="highlight">Full-stack Developer</span>. Experienced in building applications using <span class="highlight">Laravel</span> for back-end and <span class="highlight">Blade</span> and <span class="highlight">JavaScript</span> for front-end.</p>
@@ -805,17 +903,176 @@
           </div>
           <div class="stat-card">
             <div class="stat-number" data-target="12">0</div>
-            <div class="stat-label">Technologies</div>
+            <div class="stat-label">Skills</div>
           </div>
           <div class="stat-card">
             <div class="stat-number" data-target="3">0</div>
             <div class="stat-label">Years Exp</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number" data-target="15">0</div>
+            <div class="stat-number" data-target="17">0</div>
             <div class="stat-label">Repositories</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title reveal">Recent <span>Projects</span></h2>
+
+      <div class="year-group reveal">
+        <h3 class="year-label">2026</h3>
+        <div class="projects-grid">
+          <div class="project-card reveal">
+            <img src="assets/images/project-siaga-ku.jpg" alt="SiagaKU flood risk app">
+            <div class="project-overlay">
+              <h3 class="project-name">SiagaKU</h3>
+              <p class="project-desc">Flood risk and family readiness platform for DKI Jakarta, built for the IT RUSH 2026 competition with my team. Risk scoring per sub-district from BMKG, Open-Meteo, BPBD DKI, and BNPB data.</p>
+              <div class="project-tech">
+                <span class="project-tag">Next.js</span>
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Open Data</span>
+              </div>
+            </div>
+            <a href="https://siaga-ku.vercel.app/" target="_blank" rel="noopener" class="project-link" aria-label="Open SiagaKU">↗</a>
+          </div>
+          <div class="project-card reveal">
+            <img src="assets/images/project-coffee.jpg" alt="Laravel Coffee Shop">
+            <div class="project-overlay">
+              <h3 class="project-name">Laravel Coffee Shop</h3>
+              <p class="project-desc">Full-stack coffee shop ordering and management system with admin panel, inventory tracking, and real-time order management.</p>
+              <div class="project-tech">
+                <span class="project-tag">Laravel</span>
+                <span class="project-tag">Filament</span>
+                <span class="project-tag">MySQL</span>
+              </div>
+            </div>
+            <a href="https://github.com/habibighufronhilmiy/laravel-coffee-shop" target="_blank" rel="noopener" class="project-link" aria-label="Open Laravel Coffee Shop">↗</a>
+          </div>
+          <div class="project-card reveal">
+            <img src="assets/images/project-sekecam.jpg" alt="SEKECAM">
+            <div class="project-overlay">
+              <h3 class="project-name">SEKECAM</h3>
+              <p class="project-desc">Digital complaint and aspiration management system for sub-district offices. Electronic system for community feedback.</p>
+              <div class="project-tech">
+                <span class="project-tag">Laravel</span>
+                <span class="project-tag">Blade</span>
+                <span class="project-tag">MySQL</span>
+              </div>
+            </div>
+            <a href="https://github.com/habibighufronhilmiy/SEKECAM-Sistem-Elektronik-Keluhan-dan-Aspirasi-Kecamatan" target="_blank" rel="noopener" class="project-link" aria-label="Open SEKECAM">↗</a>
+          </div>
+          <div class="project-card portrait reveal">
+            <img src="assets/images/project-nutrisi.jpeg" alt="Nutrition and food budget tracker">
+            <div class="project-overlay">
+              <h3 class="project-name">Nutrition &amp; Food Budget Tracker</h3>
+              <p class="project-desc">Daily nutrition and meal budget tracking app: calorie target, macronutrient breakdown, and food spending against a monthly budget.</p>
+              <div class="project-tech">
+                <span class="project-tag">Web App</span>
+                <span class="project-tag">Dashboard</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="year-group reveal">
+        <h3 class="year-label">2025</h3>
+        <div class="projects-grid">
+          <div class="project-card text-only reveal">
+            <div class="project-body">
+              <h3 class="project-name">Zerowaste</h3>
+              <p class="project-desc">Waste-management landing page concept focused on reducing household waste.</p>
+              <div class="project-tech">
+                <span class="project-tag">HTML</span>
+                <span class="project-tag">CSS</span>
+              </div>
+            </div>
+            <a href="https://github.com/habibighufronhilmiy/zerowaste" target="_blank" rel="noopener" class="project-link" aria-label="Open Zerowaste repository">↗</a>
+          </div>
+          <div class="project-card text-only reveal">
+            <div class="project-body">
+              <h3 class="project-name">Tokokue</h3>
+              <p class="project-desc">Online bakery storefront with product catalog and ordering pages.</p>
+              <div class="project-tech">
+                <span class="project-tag">CSS</span>
+                <span class="project-tag">HTML</span>
+              </div>
+            </div>
+            <a href="https://github.com/habibighufronhilmiy/Tokokue" target="_blank" rel="noopener" class="project-link" aria-label="Open Tokokue repository">↗</a>
+          </div>
+          <div class="project-card text-only reveal">
+            <div class="project-body">
+              <h3 class="project-name">Laravel SPP</h3>
+              <p class="project-desc">School tuition (SPP) payment management application with student billing records.</p>
+              <div class="project-tech">
+                <span class="project-tag">Laravel</span>
+                <span class="project-tag">MySQL</span>
+              </div>
+            </div>
+            <a href="https://github.com/habibighufronhilmiy/laravel-spp-main" target="_blank" rel="noopener" class="project-link" aria-label="Open Laravel SPP repository">↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="year-group reveal">
+        <h3 class="year-label">2024</h3>
+        <div class="projects-grid">
+          <div class="project-card text-only reveal">
+            <div class="project-body">
+              <h3 class="project-name">AppKasir</h3>
+              <p class="project-desc">Point-of-sale cashier application for small retail transactions and daily sales records.</p>
+              <div class="project-tech">
+                <span class="project-tag">Desktop App</span>
+              </div>
+            </div>
+            <a href="https://github.com/habibighufronhilmiy/AppKasir" target="_blank" rel="noopener" class="project-link" aria-label="Open AppKasir repository">↗</a>
+          </div>
+          <div class="project-card text-only reveal">
+            <div class="project-body">
+              <h3 class="project-name">Entrepreuneur</h3>
+              <p class="project-desc">Web project for entrepreneurship class material and business planning.</p>
+              <div class="project-tech">
+                <span class="project-tag">Web</span>
+              </div>
+            </div>
+            <a href="https://github.com/habibighufronhilmiy/entreprenure" target="_blank" rel="noopener" class="project-link" aria-label="Open Entrepreuneur repository">↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certificates">
+    <div class="container">
+      <h2 class="section-title reveal">Certi<span>ficates</span></h2>
+      <div class="media-grid">
+        <figure class="media-card reveal">
+          <img src="assets/images/certificate-bnsp.jpeg" alt="Sertifikat Kompetensi BNSP atas nama Habibi Ghufron Hilmiy">
+          <figcaption>
+            <h3 class="media-title">Sertifikat Kompetensi BNSP</h3>
+            <p class="media-meta">Junior Assistant Programmer &middot; Software Development</p>
+            <p class="media-meta">LSP SMKN 24 Jakarta &middot; 6 Mei 2024 &ndash; 6 Mei 2027</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements">
+    <div class="container">
+      <h2 class="section-title reveal">Achieve<span>ments</span></h2>
+      <div class="media-grid">
+        <figure class="media-card reveal">
+          <img src="assets/images/trophy-juara2.jpeg" alt="Trofi Juara 2 IT Bootcamp Software Development for Industry">
+          <figcaption>
+            <h3 class="media-title">Juara 2 &mdash; IT Bootcamp Software Development for Industry</h3>
+            <p class="media-meta">Fakultas Teknik dan Informatika, Universitas Bina Sarana Informatika</p>
+            <p class="media-meta">Hotel Asyana &middot; 17&ndash;18 Juni 2026</p>
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -940,40 +1197,6 @@
               <div class="skill-bar-fill" data-width="72"></div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="container">
-      <h2 class="section-title reveal">Featured <span>Work</span></h2>
-      <div class="projects-grid">
-        <div class="project-card reveal">
-          <img src="assets/images/project-coffee.jpg" alt="Laravel Coffee Shop">
-          <div class="project-overlay">
-            <h3 class="project-name">Laravel Coffee Shop</h3>
-            <p class="project-desc">Full-stack coffee shop ordering and management system with admin panel, inventory tracking, and real-time order management.</p>
-            <div class="project-tech">
-              <span class="project-tag">Laravel</span>
-              <span class="project-tag">Filament</span>
-              <span class="project-tag">MySQL</span>
-            </div>
-          </div>
-          <a href="https://github.com/habibighufronhilmiy/laravel-coffee-shop" target="_blank" class="project-link">↗</a>
-        </div>
-        <div class="project-card reveal">
-          <img src="assets/images/project-sekecam.jpg" alt="SEKECAM">
-          <div class="project-overlay">
-            <h3 class="project-name">SEKECAM</h3>
-            <p class="project-desc">Digital complaint and aspiration management system for sub-district offices. Electronic system for community feedback.</p>
-            <div class="project-tech">
-              <span class="project-tag">Laravel</span>
-              <span class="project-tag">Blade</span>
-              <span class="project-tag">MySQL</span>
-            </div>
-          </div>
-          <a href="https://github.com/habibighufronhilmiy/SEKECAM-Sistem-Elektronik-Keluhan-dan-Aspirasi-Kecamatan" target="_blank" class="project-link">↗</a>
         </div>
       </div>
     </div>
