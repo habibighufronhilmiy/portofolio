@@ -694,11 +694,55 @@
       background: #050505;
     }
 
+    .earlier-note {
+      max-width: 720px;
+      padding: 28px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 12px;
+    }
+
+    .earlier-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
     .earlier-projects {
       font-size: 0.9rem;
       color: var(--text-secondary);
       line-height: 1.8;
-      max-width: 720px;
+      margin-bottom: 18px;
+    }
+
+    .earlier-projects a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(108, 99, 255, 0.35);
+    }
+
+    .earlier-projects a:hover {
+      color: var(--text-primary);
+      border-color: var(--text-primary);
+    }
+
+    .earlier-note .highlight {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .earlier-note {
+        padding: 22px;
+      }
+
+      .earlier-meta {
+        letter-spacing: 1px;
+      }
     }
 
     .media-grid {
@@ -993,11 +1037,24 @@
 
       <div class="year-group reveal">
         <h3 class="year-label">Before 2026</h3>
-        <p class="earlier-projects">
-          Built a monthly IPL (building maintenance fee) payment system for a company, and delivered several
-          back-end and full-stack projects during vocational school (2021&ndash;2024) &mdash; including web apps,
-          a school tuition payment system, and a point-of-sale cashier.
-        </p>
+        <div class="earlier-note">
+          <p class="earlier-meta">2021 &ndash; 2024 &middot; school &amp; company work</p>
+          <p class="earlier-projects">
+            Built a monthly <span class="highlight">IPL payment system</span> for a company, and delivered several
+            back-end and full-stack projects during vocational school &mdash; including a
+            <a href="https://github.com/habibighufronhilmiy/laravel-spp-main" target="_blank" rel="noopener">school tuition payment system</a>,
+            a <a href="https://github.com/habibighufronhilmiy/AppKasir" target="_blank" rel="noopener">point-of-sale cashier</a>,
+            and web projects such as
+            <a href="https://github.com/habibighufronhilmiy/zerowaste" target="_blank" rel="noopener">Zerowaste</a> and
+            <a href="https://github.com/habibighufronhilmiy/Tokokue" target="_blank" rel="noopener">Tokokue</a>.
+          </p>
+          <div class="project-tech">
+            <span class="project-tag">Laravel</span>
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">MySQL</span>
+            <span class="project-tag">JavaScript</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
